@@ -98,23 +98,56 @@ public class UserController {
 		return new ResponseEntity<UserappOutput>(output, HttpStatus.OK);
 	}
 	
-//  Prova di committ git prova
-//	@SneakyThrows
-//	@PostMapping(value = "/user/insert" , produces = "application/json")
-//    @Transactional
-//    ResponseEntity<UserappOutput> insertUser(@Valid @RequestBody UserappParamsInput patientInput, BindingResult bindingResult) {
-//		
-//		//controllo validità dati articolo
-//		if (bindingResult.hasErrors()) {
-//			
-//			String MsgErr = userUtility.SortErrors(bindingResult.getFieldErrors());
-//			
-//			log.warning(MsgErr);
-//			
-//			throw new BindingException(MsgErr);
-//			
-//		}
-//	}
+
+	@SneakyThrows
+	@PostMapping(value = "/user/insert" , produces = "application/json")
+    @Transactional
+    ResponseEntity<UserappOutput> insertUser(@Valid @RequestBody UserappParamsInput patientInput, BindingResult bindingResult) {
+		
+		UserappDto userappDto = null;
+		UserappOutput userappOutput = new UserappOutput();
+		
+		//controllo validità dati
+		if (bindingResult.hasErrors()) {
+			
+			String MsgErr = userUtility.SortErrors(bindingResult.getFieldErrors());
+			
+			log.warning(MsgErr);
+			
+			throw new BindingException(MsgErr);
+			
+		}
+		
+		try {
+			
+			userappDto = us.insertNewUser(patientInput);
+			
+			if(userappDto == null) {
+				
+				String errMsg = String.format("Errore interno del server. Contattare l'assistenza! "
+						+ "- Inserimento nuovo user non effettuato! - insertUser");
+				
+				log.warning(errMsg);
+				
+				throw new InternalServerErrorException(errMsg);
+			}else {
+				
+				userappOutput.setUserappDto(userappDto);
+				userappOutput.setResult("User creato con successo!");
+			}
+			
+		}catch (Exception e) {
+			
+			String errMsg = String.format("Errore interno del server. Contattare l'assistenza! "
+					+ "- Eccezione Interna! - insertUser");
+			
+			log.warning(errMsg);
+			
+			throw new InternalServerErrorException(errMsg);
+		}
+		
+		return null;
+	}
 
 
 

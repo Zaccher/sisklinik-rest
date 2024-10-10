@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.sisklinik.dtos.UserappDto;
 import com.sisklinik.entities.Userapp;
 import com.sisklinik.mappers.UserMapper;
-import com.sisklinik.params.output.UserappOutput;
+import com.sisklinik.params.input.UserappParamsInput;
 import com.sisklinik.repository.UserappRepository;
 import com.sisklinik.services.UserService;
 
@@ -41,6 +41,21 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return null;
+	}
+
+	@Override
+	public UserappDto insertNewUser(UserappParamsInput userappInput) {
+
+		UserappDto userappDto = null;
+		
+		Userapp userapp = mapper.userappParamsInputToUserapp(userappInput);
+		
+		ur.save(userapp);
+		
+		userappDto = mapper.userappToUserappDto(userapp);
+		
+		return userappDto;
+		
 	}
 
 }
