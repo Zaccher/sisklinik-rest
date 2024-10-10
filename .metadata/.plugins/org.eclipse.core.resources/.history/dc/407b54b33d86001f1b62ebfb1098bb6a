@@ -1,0 +1,33 @@
+#Event
+NotNull.Event.start.Validation = Il date start evento NON può essere NULL
+NotNull.Event.end.Validation = Il date end evento NON può essere NULL
+NotNull.Event.barColor.Validation = Il barColor evento NON può essere NULL
+NotBlank.Event.barColor.Validation = Il barColor evento NON può essere VUOTO
+NotNull.Event.text.Validation = Il text evento NON può essere NULL
+NotBlank.Event.text.Validation = Il text evento NON può essere VUOTO
+NotNull.Event.resource.Validation = Il resource NON può essere NULL
+NotBlank.Event.resource.Validation = Il resource NON può essere VUOTO
+NotNull.Event.patient.Validation = Il patient NON può essere NULL
+NotBlank.Event.patient.Validation = Il patient NON può essere VUOTO
+
+#Patient
+NotNull.Patient.name.Validation = Il name NON può essere NULL
+NotBlank.Patient.name.Validation = Il name NON può essere VUOTO
+NotNull.Patient.surname.Validation = Il surname NON può essere NULL
+NotBlank.Patient.surname.Validation = Il surname NON può essere VUOTO
+NotNull.Patient.gender.Validation = Il gender NON può essere NULL
+NotBlank.Patient.gender.Validation = Il gender NON può essere VUOTO
+NotNull.Patient.fiscal_code.Validation = Il fiscal_code NON può essere NULL
+NotBlank.Patient.fiscal_code.Validation = Il fiscal_code NON può essere VUOTO
+NotNull.Patient.birth_time.Validation = Il birth_time NON può essere NULL
+NotBlank.Patient.birth_time.Validation = Il birth_time NON può essere VUOTO
+NotNull.Patient.birth_place.Validation = Il birth_place NON può essere NULL
+NotBlank.Patient.birth_place.Validation = Il birth_place NON può essere VUOTO
+NotNull.Patient.personal_phone.Validation = Il personal_phone NON può essere NULL
+NotBlank.Patient.personal_phone.Validation = Il personal_phone NON può essere VUOTO
+NotNull.Patient.mail_address.Validation = Il mail_address NON può essere NULL
+NotBlank.Patient.mail_address.Validation = Il mail_address NON può essere VUOTO
+
+#Username
+NotNull.username.Validation = Lo username NON può essere NULL
+NotBlank.username.Validation = Lo username NON può essere VUOTO

@@ -1,0 +1,11 @@
+package com.sisklinik.repository.custom;
+
+import java.util.List;
+
+import com.sisklinik.agenda.webapp.dtos.input.PatientParamsInput;
+import com.sisklinik.dtos.PatientDto;
+
+public interface PatientRepositoryCustom {
+
+	List<PatientDto> getPatientByParameters(PatientParamsInput params);
+}

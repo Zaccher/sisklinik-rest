@@ -1,0 +1,5 @@
+package com.sisklinik.params.input;
+
+public class UserappParamsInput {
+
+}

@@ -1,0 +1,5 @@
+package com.sisklinik.dtos;
+
+public class UserappDto {
+
+}

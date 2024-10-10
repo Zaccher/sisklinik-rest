@@ -1,0 +1,5 @@
+package com.sisklinik.repository;
+
+public interface UserappRepository {
+
+}

@@ -1,0 +1,16 @@
+package com.sisklinik.agenda.webapp.dtos.output;
+
+import com.sisklinik.agenda.webapp.dtos.PatientDto;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class PatientOutput extends BasicOutput {
+	
+	private PatientDto patientDto;
+
+}

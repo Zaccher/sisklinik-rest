@@ -1,0 +1,50 @@
+package com.sisklinik.contollers;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sisklinik.dtos.UserappDto;
+import com.sisklinik.exceptions.InternalServerErrorException;
+import com.sisklinik.services.UserService;
+
+import lombok.SneakyThrows;
+import lombok.extern.java.Log;
+
+@Log
+@RestController
+@RequestMapping("api")
+public class UserController {
+	
+	@Autowired
+	UserService us;
+	
+	@SneakyThrows // questa annotation serve per il reminder delle eccezioni senza utilizzare altro nei metodi
+	@GetMapping(value = "/getAllUsers", produces = "application/json")
+	ResponseEntity<List<UserappDto>> getAllUsers() {
+		
+		List<UserappDto> listaResult = new ArrayList<>();
+		
+		try {
+			
+			listaResult = us.findAllUsers();
+			
+		}catch (Exception e) {
+			
+			String errMsg = String.format("Errore interno del server. Contattare l'assistenza! - getAllUsers");
+			log.warning(errMsg);
+			throw new InternalServerErrorException(errMsg);
+			
+		}
+		
+		return new ResponseEntity<List<UserappDto>>(listaResult, HttpStatus.OK);
+		
+	}
+
+}

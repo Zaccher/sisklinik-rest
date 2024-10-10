@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.sisklinik.utility.AgendaUtility&apos; to &apos;UserUtility&apos;&#x0D;&#x0A;- Original project: &apos;userModule&apos;&#x0D;&#x0A;- Original element: &apos;com.sisklinik.utility.AgendaUtility&apos;&#x0D;&#x0A;- Renamed element: &apos;com.sisklinik.utility.UserUtility&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;AgendaUtility&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.sisklinik.utility{AgendaUtility.java[AgendaUtility" matchStrategy="1" name="UserUtility" qualified="false" references="true" similarDeclarations="false" stamp="1728544192947" textual="false" version="1.0"/>
+</session>

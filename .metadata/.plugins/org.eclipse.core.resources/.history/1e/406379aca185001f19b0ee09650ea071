@@ -1,0 +1,10 @@
+package com.sisklinik.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.sisklinik.entities.Userapp;
+
+
+public interface UserappRepository extends JpaRepository<Userapp, Integer> {
+
+}

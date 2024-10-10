@@ -1,0 +1,10 @@
+package com.sisklinik.agenda.webapp.dtos.output;
+
+import lombok.Data;
+
+@Data
+public class BasicOutput {
+
+	private String result;
+	
+}

@@ -1,0 +1,23 @@
+package com.sisklinik.contollers;
+
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
+
+import lombok.SneakyThrows;
+
+public class UserController {
+	
+	
+	@SneakyThrows // questa annotation serve per il reminder delle eccezioni senza utilizzare altro nei metodi
+	@GetMapping(value = "/getUsers", produces = "application/json")
+	ResponseEntity<List<UserappDto>> getAllUsers() {
+		
+	}
+
+}

@@ -1,0 +1,31 @@
+package com.sisklinik.services;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.sisklinik.agenda.webapp.dtos.AgendaResourceDto;
+import com.sisklinik.agenda.webapp.dtos.EventDto;
+import com.sisklinik.agenda.webapp.dtos.PatientDto;
+import com.sisklinik.agenda.webapp.dtos.input.EventParamsInput;
+import com.sisklinik.agenda.webapp.dtos.input.PatientParamsInput;
+
+public interface AgendaService {
+
+	public List<AgendaResourceDto> findAllResources();
+	
+	public List<EventDto> findAllEvents(LocalDateTime start, LocalDateTime end);
+	
+	public EventDto findEventById(Integer id);
+	
+	public EventDto insertNewEvent(EventParamsInput eventInput);
+	
+	public EventDto updateEvent(EventParamsInput eventInput);
+	
+	public void deleteEvent(Integer id, String username);
+	
+	public List<PatientDto> findPatientsByParams(PatientParamsInput params);
+	
+	public PatientDto findPatientById(Integer id);
+	
+	public PatientDto insertNewPatient(PatientParamsInput eventInput);
+}
