@@ -98,6 +98,7 @@ public class UserController {
 		return new ResponseEntity<UserappOutput>(output, HttpStatus.OK);
 	}
 	
+//  Prova di committ git prova
 //	@SneakyThrows
 //	@PostMapping(value = "/user/insert" , produces = "application/json")
 //    @Transactional
