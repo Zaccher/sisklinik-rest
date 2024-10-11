@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="lombok.Data"/>
-    <fullyQualifiedTypeName name="com.sisklinik.mappers.UserMapper"/>
-    <fullyQualifiedTypeName name="com.sisklinik.services.UserService"/>
-    <fullyQualifiedTypeName name="com.sisklinik.dtos.UserappDto"/>
-    <fullyQualifiedTypeName name="com.sisklinik.params.output.UserappOutput"/>
-</qualifiedTypeNameHistroy>

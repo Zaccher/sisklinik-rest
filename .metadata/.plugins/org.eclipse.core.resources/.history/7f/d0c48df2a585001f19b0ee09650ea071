@@ -1,8 +1,0 @@
-package com.sisklinik.mappers;
-
-import org.mapstruct.Mapper;
-
-@Mapper
-public interface UserMapper {
-
-}

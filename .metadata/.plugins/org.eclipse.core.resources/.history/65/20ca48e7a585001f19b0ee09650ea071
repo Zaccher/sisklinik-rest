@@ -1,5 +1,0 @@
-package com.sisklinik.mappers;
-
-public interface UserMapper {
-
-}

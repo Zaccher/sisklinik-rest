@@ -1,9 +1,0 @@
-package com.sisklinik.agenda.webapp.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.sisklinik.agenda.webapp.entities.AgendaResource;
-
-public interface AgendaResourceRepository extends JpaRepository<AgendaResource, Integer> {
-
-}

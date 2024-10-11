@@ -1,7 +1,0 @@
-package com.sisklinik.services.impl;
-
-import com.sisklinik.services.UserService;
-
-public class UserServiceImpl implements UserService {
-
-}
