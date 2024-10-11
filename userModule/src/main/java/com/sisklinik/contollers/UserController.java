@@ -3,6 +3,7 @@ package com.sisklinik.contollers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -197,6 +198,41 @@ public class UserController {
 		}
 		
 		return null;
+	}
+	
+	@SneakyThrows
+	@PostMapping(value = "/user/delete" , produces = "application/json")
+    @Transactional
+    ResponseEntity<UserappOutput> deleteUser(@RequestParam String id) {
+		
+		UserappOutput userappOutput = new UserappOutput();
+		
+		try {
+			
+			if(StringUtils.isEmpty(id.trim())) {
+				
+				String errMsg = String.format("Errore interno del server. Contattare l'assistenza! - deleteUser");
+				log.warning(errMsg);
+				throw new BindingException(errMsg);
+				
+			} else {
+			
+				us.deleteUser(Integer.parseInt(id));
+			}
+			
+		}catch (Exception e) {
+			
+			String errMsg = String.format("Errore interno del server. Contattare l'assistenza! - "
+					+ "Eccezione Interna! - deleteUser");
+			
+			log.warning(errMsg);
+			
+			throw new InternalServerErrorException(errMsg);
+		}
+		
+		userappOutput.setResult("User cancellato con successo!");
+		
+		return new ResponseEntity<UserappOutput>(userappOutput, HttpStatus.OK);
 	}
 
 

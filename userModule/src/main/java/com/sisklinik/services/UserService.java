@@ -14,5 +14,7 @@ public interface UserService {
 	public UserappDto insertNewUser(UserappParamsInput userappInput);
 	
 	public UserappDto updateUser(UserappParamsInput userappInput);
+	
+	public void deleteUser(Integer id);
 
 }

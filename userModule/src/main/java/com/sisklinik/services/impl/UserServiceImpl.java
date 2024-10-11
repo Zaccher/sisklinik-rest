@@ -6,9 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sisklinik.dtos.EventDto;
 import com.sisklinik.dtos.UserappDto;
-import com.sisklinik.entities.Event;
 import com.sisklinik.entities.Userapp;
 import com.sisklinik.mappers.UserMapper;
 import com.sisklinik.params.input.UserappParamsInput;
@@ -95,6 +93,23 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return userappDto;
+	}
+
+	@Override
+	public void deleteUser(Integer id) {
+
+		Optional<Userapp> userapp = ur.findById(id);
+		if(userapp.isPresent()) {
+			
+			// Mettiamo il visible a false
+			Userapp userappPresent = userapp.get();
+			userappPresent.setVisible(false);
+			
+			// Salviamo la cancellazione logica dell'event
+			ur.save(userappPresent);
+			
+		}
+		
 	}
 
 }
