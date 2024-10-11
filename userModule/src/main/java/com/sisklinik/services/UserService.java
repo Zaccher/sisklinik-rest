@@ -12,5 +12,7 @@ public interface UserService {
 	public UserappDto verifyUserapp(String username, String password);
 	
 	public UserappDto insertNewUser(UserappParamsInput userappInput);
+	
+	public UserappDto updateUser(UserappParamsInput userappInput);
 
 }

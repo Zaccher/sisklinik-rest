@@ -149,6 +149,55 @@ public class UserController {
 		return null;
 	}
 
+	@SneakyThrows
+	@PostMapping(value = "/user/update" , produces = "application/json")
+    @Transactional
+    ResponseEntity<UserappOutput> updateUser(@Valid @RequestBody UserappParamsInput patientInput, BindingResult bindingResult) {
+		
+		UserappDto userappDto = null;
+		UserappOutput userappOutput = new UserappOutput();
+		
+		//controllo validità dati
+		if (bindingResult.hasErrors()) {
+			
+			String MsgErr = userUtility.SortErrors(bindingResult.getFieldErrors());
+			
+			log.warning(MsgErr);
+			
+			throw new BindingException(MsgErr);
+			
+		}
+		
+		try {
+			
+			userappDto = us.updateUser(patientInput);
+			
+			if(userappDto == null) {
+				
+				String errMsg = String.format("Errore interno del server. Contattare l'assistenza! "
+						+ "- Aggiornamento user non effettuato! - updateUser");
+				
+				log.warning(errMsg);
+				
+				throw new InternalServerErrorException(errMsg);
+			}else {
+				
+				userappOutput.setUserappDto(userappDto);
+				userappOutput.setResult("User aggiornato con successo!");
+			}
+			
+		}catch (Exception e) {
+			
+			String errMsg = String.format("Errore interno del server. Contattare l'assistenza! "
+					+ "- Eccezione Interna! - updateUser");
+			
+			log.warning(errMsg);
+			
+			throw new InternalServerErrorException(errMsg);
+		}
+		
+		return null;
+	}
 
 
 }
