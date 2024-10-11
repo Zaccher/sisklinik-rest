@@ -195,8 +195,27 @@ public class AgendaServiceImpl implements AgendaService {
         return patientDto;
 	}
 
-	
+	@Override
+	public PatientDto updatePatient(PatientParamsInput patientInput) {
 
-	
+		Optional<Patient> returnFind = pr.findById(patientInput.getId());
+		
+		PatientDto patientDto = null;
+		
+		if(returnFind.isPresent()) {
+			
+			Patient patient = returnFind.get();
+			
+			patient = mapper.patientParamsInputToPatient(patientInput);
+			
+			// Salvataggio Patient sul DB
+			pr.save(patient);
+			
+			// Convertiamo il patient appena salvato in un DTO
+			patientDto = mapper.patientToPatientDto(patient);
+		}
+		
+		return patientDto;
+	}
 
 }

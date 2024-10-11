@@ -28,5 +28,7 @@ public interface AgendaService {
 	
 	public PatientDto findPatientById(Integer id);
 	
-	public PatientDto insertNewPatient(PatientParamsInput eventInput);
+	public PatientDto insertNewPatient(PatientParamsInput patientInput);
+	
+	public PatientDto updatePatient(PatientParamsInput patientInput);
 }

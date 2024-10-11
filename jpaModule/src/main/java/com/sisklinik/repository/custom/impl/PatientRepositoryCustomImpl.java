@@ -53,7 +53,7 @@ public class PatientRepositoryCustomImpl implements PatientRepositoryCustom {
         	sb.append(" AND birth_time = to_date(:birthDate,'YYYY-MM-dd') ");
         }
         
-        if(params.getId() != null && StringUtils.isNotEmpty(params.getId())) {
+        if(params.getId() != null) {
         	sb.append(" AND id = :id ");
         }
 
@@ -79,8 +79,8 @@ public class PatientRepositoryCustomImpl implements PatientRepositoryCustom {
             query.setParameter("birthDate", params.getBirth_time());
         }
         
-        if(params.getId() !=null && StringUtils.isNotEmpty(params.getId())) {
-            query.setParameter("id", Integer.parseInt(params.getId()));
+        if(params.getId() !=null) {
+            query.setParameter("id", params.getId().intValue());
         }
         
         List<Object[]> listaResult = query.getResultList();

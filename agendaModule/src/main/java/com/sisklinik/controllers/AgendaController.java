@@ -387,4 +387,57 @@ public class AgendaController {
 
     }
 	
+	@SneakyThrows
+	@PostMapping(value = "/patient/update" , produces = "application/json")
+    @Transactional
+    ResponseEntity<PatientOutput> updatePatient(@Valid @RequestBody PatientParamsInput patientInput, BindingResult bindingResult) {
+		
+		PatientDto patientDto = null;
+		PatientOutput patientOutput = new PatientOutput(); 
+		
+		//controllo validità dati articolo
+		if (bindingResult.hasErrors()) {
+			
+			String MsgErr = agendaUtility.SortErrors(bindingResult.getFieldErrors());
+			
+			log.warning(MsgErr);
+			
+			throw new BindingException(MsgErr);
+			
+		}
+		
+		try {
+			
+			patientDto = as.updatePatient(patientInput);
+	
+			if(patientDto == null) {
+				
+				String errMsg = String.format("Errore interno del server. Contattare l'assistenza! "
+						+ "- Update evento non riuscito! - updatePatient");
+				
+				log.warning(errMsg);
+				
+				throw new InternalServerErrorException(errMsg);
+			}
+			else {
+				
+				patientOutput.setPatientDto(patientDto);
+				patientOutput.setResult("Patient aggiornato con successo!");
+			}
+			
+		}catch (Exception e) {
+
+			String errMsg = String.format("Errore interno del server. Contattare l'assistenza! - "
+					+ "Eccezione Interna! - updatePatient");
+			
+			log.warning(errMsg);
+			
+			throw new InternalServerErrorException(errMsg);
+			
+		}
+        
+		return new ResponseEntity<PatientOutput>(patientOutput, HttpStatus.OK);
+
+    }
+	
 }
