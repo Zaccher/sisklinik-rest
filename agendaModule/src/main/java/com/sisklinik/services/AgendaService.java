@@ -22,7 +22,7 @@ public interface AgendaService {
 	
 	public EventDto updateEvent(EventParamsInput eventInput);
 	
-	public void deleteEvent(Integer id, String username);
+	public void deleteEvent(Integer id);
 	
 	public List<PatientDto> findPatientsByParams(PatientParamsInput params);
 	

@@ -302,11 +302,11 @@ public class AgendaController {
 	@SneakyThrows
 	@DeleteMapping(value = "/event/delete")
     @Transactional
-    ResponseEntity<EventOutput> deleteEvent(@RequestParam String id, @RequestParam String username) {
+    ResponseEntity<EventOutput> deleteEvent(@RequestParam String id) {
 
 		try {
 			
-			if(StringUtils.isEmpty(id.trim()) || StringUtils.isEmpty(username.trim())) {
+			if(StringUtils.isEmpty(id.trim())) {
 				
 				String errMsg = String.format("Errore interno del server. Contattare l'assistenza! - deleteEvent");
 				log.warning(errMsg);
@@ -314,7 +314,7 @@ public class AgendaController {
 				
 			} else {
 			
-				as.deleteEvent(Integer.parseInt(id), username);
+				as.deleteEvent(Integer.parseInt(id));
 			}
 			
 		}catch (Exception e) {

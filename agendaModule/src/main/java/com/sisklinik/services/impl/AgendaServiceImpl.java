@@ -137,7 +137,7 @@ public class AgendaServiceImpl implements AgendaService {
 	}
 	
 	@Override
-	public void deleteEvent(Integer id, String username) {
+	public void deleteEvent(Integer id) {
 		
 		Optional<Event> event = er.findById(id);
 		if(event.isPresent()) {
