@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sisklinik.dtos.UserappDto;
+import com.sisklinik.entities.AgendaResource;
 import com.sisklinik.entities.Userapp;
 import com.sisklinik.mappers.UserMapper;
 import com.sisklinik.params.input.UserappParamsInput;
+import com.sisklinik.repository.AgendaResourceRepository;
 import com.sisklinik.repository.UserappRepository;
 import com.sisklinik.services.UserService;
 
@@ -18,6 +20,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserappRepository ur;
+	
+	@Autowired
+	AgendaResourceRepository ar;
 	
 	@Autowired
 	UserMapper mapper;
@@ -51,7 +56,22 @@ public class UserServiceImpl implements UserService {
 		
 		Userapp userapp = mapper.userappParamsInputToUserapp(userappInput);
 		
+		// Memoriziamo lo userapp
 		ur.save(userapp);
+		
+		// se a FE abbiamo selezionato anche la risorsa
+		if(userappInput.isCheckResource()) {
+			
+			AgendaResource agendaResource = new AgendaResource();
+			agendaResource.setAlias(userappInput.getAlias());
+			agendaResource.setIcon("pat-blue.jpg");
+			agendaResource.setVisible(true);
+			agendaResource.setUserapp(userapp);
+			
+			// Memoriziamo l'agendaResource
+			ar.save(agendaResource);
+			
+		}
 		
 		userappDto = mapper.userappToUserappDto(userapp);
 		

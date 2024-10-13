@@ -52,5 +52,8 @@ public class UserappParamsInput {
 	@NotNull(message = "{NotNull.Userapp.mailAddress.Validation}")
 	@NotBlank(message = "{NotBlank.Userapp.mailAddress.Validation}")
 	private String mailAddress;
+	
+	private boolean checkResource;
+	private String alias;
 
 }
