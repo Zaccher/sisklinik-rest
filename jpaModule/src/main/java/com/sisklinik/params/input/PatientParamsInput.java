@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class PatientParamsInput {
 
-	private Integer id;
+	private String id;
 	
 	@NotNull(message = "{NotNull.Patient.name.Validation}")
 	@NotBlank(message = "{NotBlank.Patient.name.Validation}")

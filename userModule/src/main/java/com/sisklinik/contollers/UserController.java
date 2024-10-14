@@ -119,6 +119,17 @@ public class UserController {
 			
 		}
 		
+		// Controlliamo che non sia già presente una utenza con il CF passato da input
+		if(us.verifyUniqueCf(patientInput.getFiscalCode().trim())) {
+			
+			String errMsg = String.format("Utente già presente in banca dati");
+			
+			log.warning(errMsg);
+			
+			throw new BindingException(errMsg);
+			
+		}
+		
 		try {
 			
 			userappDto = us.insertNewUser(patientInput);
@@ -147,7 +158,7 @@ public class UserController {
 			throw new InternalServerErrorException(errMsg);
 		}
 		
-		return null;
+		return new ResponseEntity<UserappOutput>(userappOutput, HttpStatus.OK);
 	}
 
 	@SneakyThrows

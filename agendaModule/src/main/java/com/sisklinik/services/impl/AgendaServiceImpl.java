@@ -198,7 +198,7 @@ public class AgendaServiceImpl implements AgendaService {
 	@Override
 	public PatientDto updatePatient(PatientParamsInput patientInput) {
 
-		Optional<Patient> returnFind = pr.findById(patientInput.getId());
+		Optional<Patient> returnFind = pr.findById(Integer.valueOf(patientInput.getId()));
 		
 		PatientDto patientDto = null;
 		

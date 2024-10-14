@@ -11,6 +11,8 @@ public interface UserService {
 	
 	public UserappDto verifyUserapp(String username, String password);
 	
+	public boolean verifyUniqueCf(String cf);
+	
 	public UserappDto insertNewUser(UserappParamsInput userappInput);
 	
 	public UserappDto updateUser(UserappParamsInput userappInput);

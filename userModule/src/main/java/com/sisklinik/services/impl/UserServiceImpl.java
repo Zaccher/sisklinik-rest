@@ -132,4 +132,17 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+	@Override
+	public boolean verifyUniqueCf(String cf) {
+		
+		Userapp userapp = ur.findByFiscalCode(cf);
+		
+		if(userapp != null) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+
 }
