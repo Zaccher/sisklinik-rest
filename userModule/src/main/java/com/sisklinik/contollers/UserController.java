@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -99,28 +100,16 @@ public class UserController {
 		return new ResponseEntity<UserappOutput>(output, HttpStatus.OK);
 	}
 	
-
 	@SneakyThrows
-	@PostMapping(value = "/user/insert" , produces = "application/json")
+	@PostMapping(value = "/user/insert", consumes = "multipart/form-data", produces = "application/json")
     @Transactional
-    ResponseEntity<UserappOutput> insertUser(@Valid @RequestBody UserappParamsInput patientInput, BindingResult bindingResult) {
+    ResponseEntity<UserappOutput> insertUser(@ModelAttribute UserappParamsInput userappParamsInput) {
 		
 		UserappDto userappDto = null;
 		UserappOutput userappOutput = new UserappOutput();
 		
-		//controllo validità dati
-		if (bindingResult.hasErrors()) {
-			
-			String MsgErr = userUtility.SortErrors(bindingResult.getFieldErrors());
-			
-			log.warning(MsgErr);
-			
-			throw new BindingException(MsgErr);
-			
-		}
-		
 		// Controlliamo che non sia già presente una utenza con il CF passato da input
-		if(us.verifyUniqueCf(patientInput.getFiscalCode().trim())) {
+		if(us.verifyUniqueCf(userappParamsInput.getFiscalCode().trim())) {
 			
 			String errMsg = String.format("Utente già presente in banca dati");
 			
@@ -132,7 +121,7 @@ public class UserController {
 		
 		try {
 			
-			userappDto = us.insertNewUser(patientInput);
+			userappDto = us.insertNewUser(userappParamsInput);
 			
 			if(userappDto == null) {
 				

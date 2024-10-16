@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -44,6 +45,11 @@ public class AgendaResource {
 	@Convert(converter = StringTrimConverter.class)
 	@Column(name = "icon")
 	String icon;
+	
+	@Lob
+    @Column(name = "displayPicture")
+    private byte[] displayPicture;
+
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "userapp",  referencedColumnName = "id")

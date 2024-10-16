@@ -33,7 +33,7 @@ public interface UserMapper {
 	@Mapping(source = "name", target = "name")
 	@Mapping(source = "surname", target = "surname")
 	@Mapping(source = "fiscalCode", target = "fiscalCode")
-	@Mapping(source = "birthDate", target = "birthDate")
+	@Mapping(target = "birthDate", ignore = true)
 	@Mapping(source = "birthPlace", target = "birthPlace")
 	@Mapping(source = "address", target = "address")
 	@Mapping(source = "postcode", target = "postcode")

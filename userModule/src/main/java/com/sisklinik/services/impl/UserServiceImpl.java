@@ -1,5 +1,6 @@
 package com.sisklinik.services.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,8 @@ import com.sisklinik.params.input.UserappParamsInput;
 import com.sisklinik.repository.AgendaResourceRepository;
 import com.sisklinik.repository.UserappRepository;
 import com.sisklinik.services.UserService;
+
+import lombok.SneakyThrows;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,23 +52,33 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	@SneakyThrows
 	@Override
 	public UserappDto insertNewUser(UserappParamsInput userappInput) {
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 		UserappDto userappDto = null;
 		
 		Userapp userapp = mapper.userappParamsInputToUserapp(userappInput);
 		
+		if(userappInput.getBirthDate() != null && !userappInput.getBirthDate().isEmpty()) {
+			userapp.setBirthDate(formatter.parse(userappInput.getBirthDate()));
+		}
+		
 		// Memoriziamo lo userapp
 		ur.save(userapp);
 		
 		// se a FE abbiamo selezionato anche la risorsa
-		if(userappInput.isCheckResource()) {
+		if(userappInput.getCheckResource().equals("T")) {
 			
 			AgendaResource agendaResource = new AgendaResource();
 			agendaResource.setAlias(userappInput.getAlias());
 			agendaResource.setIcon("pat-blue.jpg");
 			agendaResource.setVisible(true);
+			if(userappInput.getFile() != null) {
+				agendaResource.setDisplayPicture(userappInput.getFile().getBytes());
+			}
 			agendaResource.setUserapp(userapp);
 			
 			// Memoriziamo l'agendaResource
@@ -80,7 +93,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@SneakyThrows
 	public UserappDto updateUser(UserappParamsInput userappInput) {
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		
 		Optional<Userapp> returnFind = ur.findById(userappInput.getId());
 		
@@ -95,7 +111,7 @@ public class UserServiceImpl implements UserService {
 			userapp.setName(userappInput.getName());
 			userapp.setSurname(userappInput.getSurname());
 			userapp.setFiscalCode(userappInput.getFiscalCode());
-			userapp.setBirthDate(userappInput.getBirthDate());
+			userapp.setBirthDate(formatter.parse(userappInput.getBirthDate()));
 			userapp.setBirthPlace(userappInput.getBirthPlace());
 			userapp.setAddress(userappInput.getAddress());
 			userapp.setPostcode(userappInput.getPostcode());

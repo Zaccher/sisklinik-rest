@@ -1,14 +1,16 @@
 package com.sisklinik.params.input;
 
-import java.util.Date;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 public class UserappParamsInput {
 	
 	private Integer id;
@@ -33,7 +35,7 @@ public class UserappParamsInput {
 	@NotBlank(message = "{NotBlank.Userapp.fiscalCode.Validation}")
 	private String fiscalCode;
 	
-	private Date birthDate;
+	private String birthDate;
 	
 	private String birthPlace;
 	
@@ -53,7 +55,10 @@ public class UserappParamsInput {
 	@NotBlank(message = "{NotBlank.Userapp.mailAddress.Validation}")
 	private String mailAddress;
 	
-	private boolean checkResource;
+	private String checkResource;
+	
 	private String alias;
+	
+	private MultipartFile file; 
 
 }

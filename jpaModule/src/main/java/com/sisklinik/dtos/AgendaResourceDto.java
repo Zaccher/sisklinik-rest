@@ -1,5 +1,6 @@
 package com.sisklinik.dtos;
 
+import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,8 +8,12 @@ import lombok.Setter;
 @Setter
 public class AgendaResourceDto {
 	
-	String name;
-	String id;
-	String icon;
+	private String name;
+	private String id;
+	private String icon;
+	
+	@Lob
+    private byte[] displayPicture;
+	
 
 }
