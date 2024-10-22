@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -27,26 +27,9 @@ public class SecurityConfiguration {
 	
 	private static String REALM = "REAME";
 	
-	//Identità di autenticazione direttamente in memory
-	//TODO sostituire questo pezzo con una chiamata ad un'altra web service che espone il servizio 
-	//     di verifica della username e password
-	@Bean
-    UserDetailsService userDetailsService() 
-    {
-		 UserDetails user  = User
-        		.withUsername("Nicola")
-                .password(new BCryptPasswordEncoder().encode("123_Stella"))
-                .roles("USER")
-                .build();
-		 
-		 UserDetails admin = User
-        		.withUsername("admin")
-                .password(new BCryptPasswordEncoder().encode("admin"))
-                .roles("USER","ADMIN")
-                .build();
-		 
-		 return new InMemoryUserDetailsManager(admin, user);
-    }
+	@Autowired
+	@Qualifier("CustomUserDetailsService")
+	private UserDetailsService userDetailsService;
 	
 	@Bean
     BCryptPasswordEncoder passwordEncoder()
@@ -83,6 +66,13 @@ public class SecurityConfiguration {
 	AuthEntryPoint getBasicAuthEntryPoint()
 	{
 		return new AuthEntryPoint();
+	}
+	
+	@Autowired
+	@SneakyThrows
+	public void configureGlobal(AuthenticationManagerBuilder auth) {
+		
+		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 	
 	@Bean

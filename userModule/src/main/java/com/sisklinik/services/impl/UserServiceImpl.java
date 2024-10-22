@@ -39,17 +39,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserappDto verifyUserapp(String username, String password) {
+	public Userapp verifyUserapp(String username) {
 
-		Userapp userapp = ur.findByUsernameAndPassword(username, password);
+		return ur.findByUsername(username);
 		
-		if(userapp != null) {
-			
-			return mapper.userappToUserappDto(userapp);
-			
-		}
-		
-		return null;
 	}
 
 	@SneakyThrows

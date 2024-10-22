@@ -1,5 +1,6 @@
 package com.sisklinik.contollers;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,13 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sisklinik.dtos.InfoMsg;
 import com.sisklinik.dtos.UserappDto;
+import com.sisklinik.entities.Userapp;
 import com.sisklinik.exceptions.BindingException;
 import com.sisklinik.exceptions.InternalServerErrorException;
 import com.sisklinik.params.input.UserappParamsInput;
@@ -63,21 +67,26 @@ public class UserController {
 	}
 	
 	@SneakyThrows
-	@GetMapping(value = "/verifyUser", produces = "application/json")
-	ResponseEntity<UserappOutput> verifyUser(@RequestParam("username") String username, @RequestParam("password") String password) {
+	@GetMapping(value = "/login", produces = "application/json")
+	public ResponseEntity<InfoMsg> loginAuth()
+	{
+		return new ResponseEntity<InfoMsg>( 
+				new InfoMsg(LocalDate.now(),"Test Autenticazione OK!"), HttpStatus.OK);
+	}
+	
+	@SneakyThrows
+	@GetMapping(value = "/verifyUser/{username}", produces = "application/json")
+	public Userapp verifyUser(@PathVariable("username") String username) {
 		
-		UserappDto result = new UserappDto();
-		
-		UserappOutput output = new UserappOutput();
+		Userapp result = new Userapp();
 		
 		try {
 			
-			result = us.verifyUserapp(username, password);
+			result = us.verifyUserapp(username);
 			
 			if(result != null) {
 				
-				output.setUserappDto(result);
-				output.setResult("Utente esistente!");
+				log.info(String.format("L'utente %s e' stato trovato!", username));
 				
 			}else {
 				
@@ -97,7 +106,7 @@ public class UserController {
 			throw new InternalServerErrorException(errMsg);
 		}
 		
-		return new ResponseEntity<UserappOutput>(output, HttpStatus.OK);
+		return result;
 	}
 	
 	@SneakyThrows

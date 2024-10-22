@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "userapp.srvUrl",
+    "type": "java.lang.String",
+    "description": "A description for 'userapp.srvUrl'"
+  },
+  {
+    "name": "userapp.password",
+    "type": "java.lang.String",
+    "description": "A description for 'userapp.password'"
+  },
+  {
+    "name": "userapp.userId",
+    "type": "java.lang.String",
+    "description": "A description for 'userapp.userId'"
+  }
+]}

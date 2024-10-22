@@ -3,13 +3,14 @@ package com.sisklinik.services;
 import java.util.List;
 
 import com.sisklinik.dtos.UserappDto;
+import com.sisklinik.entities.Userapp;
 import com.sisklinik.params.input.UserappParamsInput;
 
 public interface UserService {
 	
 	public List<UserappDto> findAllUsers();
 	
-	public UserappDto verifyUserapp(String username, String password);
+	public Userapp verifyUserapp(String username);
 	
 	public boolean verifyUniqueCf(String cf);
 	
