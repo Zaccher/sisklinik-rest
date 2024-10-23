@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sisklinik.entities.Userapp;
+import com.sisklinik.entities.UserappRole;
 import com.sisklinik.services.UserService;
 
 import lombok.SneakyThrows;
@@ -57,8 +58,15 @@ public class UserappUserDetailsService implements UserDetailsService {
 		builder.password(new BCryptPasswordEncoder().encode(userapp.getPassword()));
 		
 		List<String> listaRuoli = new ArrayList<>();
-		listaRuoli.add("USER");
-		listaRuoli.add("ADMIN");
+		
+		if(!userapp.getUserappRoles().isEmpty()) {
+			for(UserappRole ur: userapp.getUserappRoles()) {
+				listaRuoli.add(ur.getRole().getName());
+			}
+		}	
+		
+//		listaRuoli.add("USER");
+//		listaRuoli.add("ADMIN");
 		
 		
 		String[] profili = listaRuoli

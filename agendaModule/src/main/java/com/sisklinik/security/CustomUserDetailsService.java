@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.sisklinik.entities.Userapp;
+import com.sisklinik.entities.UserappRole;
 
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
@@ -58,9 +59,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 		builder.password(new BCryptPasswordEncoder().encode(userapp.getPassword()));
 		
 		List<String> listaRuoli = new ArrayList<>();
-		listaRuoli.add("USER");
-		listaRuoli.add("ADMIN");
 		
+		if(!userapp.getUserappRoles().isEmpty()) {
+			for(UserappRole ur: userapp.getUserappRoles()) {
+				listaRuoli.add(ur.getRole().getName());
+			}
+		}		
 		
 		String[] profili = listaRuoli
 				 .stream().map(a -> "ROLE_" + a).toArray(String[]::new);

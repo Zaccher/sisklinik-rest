@@ -22,7 +22,7 @@
   </properties>
 
   <dependencies>
-  	
+
   	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -64,6 +64,14 @@
 		<groupId>org.postgresql</groupId>
 		<artifactId>postgresql</artifactId>
 		<scope>runtime</scope>
+	</dependency>
+	
+	<!-- Questa dipendenza serve per gestire la serializzazione e la de-serializzazione di un oggetto e 
+	     nello specifico nello gestire le dipendenze cicliche che possono esserci tra un entità
+	     ed un'altra-->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
 	</dependency>
 		 
   </dependencies>
