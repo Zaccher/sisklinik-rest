@@ -6,9 +6,8 @@ import java.util.List;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
-import com.sisklinik.converters.StringTrimConverter;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sisklinik.converters.StringTrimConverter;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -98,7 +97,7 @@ public class Userapp {
 	private String mailAddress;
 	
 	@NotAudited
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userapp", cascade = CascadeType.PERSIST)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "userapp", cascade = CascadeType.PERSIST)
 	@JsonManagedReference // gestiamo la dipendenza ciclica
 	private List<UserappRole> userappRoles;
 	

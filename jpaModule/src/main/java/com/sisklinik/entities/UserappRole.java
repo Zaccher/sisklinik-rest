@@ -2,7 +2,6 @@ package com.sisklinik.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,12 +29,12 @@ public class UserappRole {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="userapp_role_generator")
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userapp_id",  referencedColumnName = "id")
 	@JsonBackReference //dipendenza ciclica -> in questo modo non avrà un riferimento allo userapp
 	private Userapp userapp;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "role_id",  referencedColumnName = "id")
 	private Role role;
 

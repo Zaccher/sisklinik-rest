@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role {
-	
+
 	@Id
 	@Column(name = "id")
 	@SequenceGenerator(name="role_generator", sequenceName="role_seq", allocationSize = 1) 
@@ -41,7 +41,5 @@ public class Role {
 	
 	@Column(name = "data_fine_validita")
 	private Date dataFineValidita;
-	
-	
 
 }

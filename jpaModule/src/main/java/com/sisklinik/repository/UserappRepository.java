@@ -1,5 +1,7 @@
 package com.sisklinik.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +16,6 @@ public interface UserappRepository extends JpaRepository<Userapp, Integer> {
 	
 	@Query("from Userapp u where u.fiscalCode = :fiscalCode and u.visible = true")
 	public Userapp findByFiscalCode(@Param("fiscalCode") String fiscalCode);
+	
+	Optional<Userapp> findByMailAddress(String mailAddress);
 }
