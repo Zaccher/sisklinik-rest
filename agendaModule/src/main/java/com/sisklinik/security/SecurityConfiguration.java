@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -25,11 +25,12 @@ import lombok.SneakyThrows;
 @Configuration
 public class SecurityConfiguration {
 	
-	private static String REALM = "REAME";
-	
 	@Autowired
 	@Qualifier("CustomUserDetailsService")
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private JwtAuthorizationFilter jwtAuthorizationFilter;
 	
 	@Bean
     BCryptPasswordEncoder passwordEncoder()
@@ -47,32 +48,19 @@ public class SecurityConfiguration {
     SecurityFilterChain securityFilterChain(HttpSecurity http) 
 	{
 		http
-			.csrf(csrf -> csrf.disable()) //disattiviamo il csrf - nella nostra app non servirà
-			.cors(cors -> cors.configurationSource(corsConfigurationSource())) // configurazione del cors - Molto importante!
-			.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Configurazione del sessionManagement a STATELESS
-			.httpBasic(e -> e.realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())) // configurazione dell'authentication entry point dell'applicazione
+			.csrf(csrf -> csrf.disable())
+			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+			.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
 			.authorizeHttpRequests(authz -> 
             {
 				authz
 				    .requestMatchers(ADMIN_MATCHER).hasRole("ADMIN")
 				    .requestMatchers(USER_MATCHER).hasRole("USER")
 				    .anyRequest().authenticated();
-			}); // Con questo specifichiamo i matcher tra i ruoli e gli endpoint
+			});
 		
 		return http.build();
-	}
-	
-	@Bean
-	AuthEntryPoint getBasicAuthEntryPoint()
-	{
-		return new AuthEntryPoint();
-	}
-	
-	@Autowired
-	@SneakyThrows
-	public void configureGlobal(AuthenticationManagerBuilder auth) {
-		
-		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 	
 	@Bean
