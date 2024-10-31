@@ -64,11 +64,7 @@ public class UserappUserDetailsService implements UserDetailsService {
 				listaRuoli.add(ur.getRole().getName());
 			}
 		}	
-		
-//		listaRuoli.add("USER");
-//		listaRuoli.add("ADMIN");
-		
-		
+			
 		String[] profili = listaRuoli
 				 .stream().map(a -> "ROLE_" + a).toArray(String[]::new);
 		

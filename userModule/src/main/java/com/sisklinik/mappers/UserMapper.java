@@ -42,6 +42,7 @@ public interface UserMapper {
 	@Mapping(source = "personalPhone", target = "personalPhone")
 	@Mapping(source = "homePhone", target = "homePhone")
 	@Mapping(source = "mailAddress", target = "mailAddress")
+	@Mapping(target = "userappRoles", ignore = true)
 	Userapp userappParamsInputToUserapp(UserappParamsInput input);
 
 }
