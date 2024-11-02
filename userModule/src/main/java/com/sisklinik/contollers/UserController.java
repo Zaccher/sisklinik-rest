@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +43,7 @@ public class UserController {
 	
 	@SneakyThrows // questa annotation serve per il reminder delle eccezioni senza utilizzare altro nei metodi
 	@GetMapping(value = "/getAllUsers", produces = "application/json")
+//	@PreAuthorize("hasAnyRole('ADMIN')")
 	ResponseEntity<List<UserappDto>> getAllUsers() {
 		
 		List<UserappDto> listaResult = new ArrayList<>();
@@ -65,6 +67,7 @@ public class UserController {
 	@SneakyThrows
 	@PostMapping(value = "/user/insert", consumes = "multipart/form-data", produces = "application/json")
     @Transactional
+    @PreAuthorize("hasAnyRole('ADMIN')")
     ResponseEntity<UserappOutput> insertUser(@ModelAttribute UserappParamsInput userappParamsInput) {
 		
 		UserappDto userappDto = null;
@@ -115,6 +118,7 @@ public class UserController {
 	@SneakyThrows
 	@PostMapping(value = "/user/update" , produces = "application/json")
     @Transactional
+    @PreAuthorize("hasAnyRole('ADMIN')")
     ResponseEntity<UserappOutput> updateUser(@Valid @RequestBody UserappParamsInput patientInput, BindingResult bindingResult) {
 		
 		UserappDto userappDto = null;
@@ -165,6 +169,7 @@ public class UserController {
 	@SneakyThrows
 	@PostMapping(value = "/user/delete" , produces = "application/json")
     @Transactional
+    @PreAuthorize("hasAnyRole('ADMIN')")
     ResponseEntity<UserappOutput> deleteUser(@RequestParam String id) {
 		
 		UserappOutput userappOutput = new UserappOutput();

@@ -25,7 +25,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.sisklinik.dtos.AgendaResourceDto;
 import com.sisklinik.dtos.EventDto;
 import com.sisklinik.dtos.PatientDto;
-
 import com.sisklinik.exceptions.BindingException;
 import com.sisklinik.exceptions.InternalServerErrorException;
 import com.sisklinik.params.input.EventParamsInput;
@@ -54,6 +53,7 @@ public class AgendaController {
 	@SneakyThrows // questa annotation serve per il reminder delle eccezioni senza utilizzare altro nei metodi
 	@GetMapping(value = "/getResources", produces = "application/json")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
+//	@PreAuthorize("hasAnyRole('ADMIN','USER')")
 	ResponseEntity<List<AgendaResourceDto>> getAllResources() {
 		
 		List<AgendaResourceDto> listaResult = new ArrayList<>();
