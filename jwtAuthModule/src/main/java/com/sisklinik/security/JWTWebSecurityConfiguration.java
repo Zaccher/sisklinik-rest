@@ -46,7 +46,6 @@ public class JWTWebSecurityConfiguration {
 	
 	/* Questo provider specifica il servizio di dettagli utente e il codificatore di password
 	 * per l'autenticazione.*/
-	@Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);

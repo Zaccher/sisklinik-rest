@@ -22,6 +22,7 @@ import lombok.extern.java.Log;
 @Component
 @Log
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
+	
 	@Autowired
 	@Qualifier("CustomUserDetailsService")
 	private UserDetailsService userDetailsService;
@@ -34,8 +35,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
 	@Override
 	@SneakyThrows
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-	{
+	protected void doFilterInternal(HttpServletRequest request, 
+			                        HttpServletResponse response, 
+			                        FilterChain chain) {
+		
 		log.info(String.format("Authentication Request For '{%s}'", request.getRequestURL()));
 
 		final String requestTokenHeader = request.getHeader(this.tokenHeader);
@@ -82,5 +85,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 		}
 
 		chain.doFilter(request, response);
+		
 	}
 }

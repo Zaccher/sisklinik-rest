@@ -10,8 +10,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 @RestController
-public class RestExceptionHandler extends ResponseEntityExceptionHandler
-{
+public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+	
 	@ExceptionHandler(NotFoundException.class)
 	public final ResponseEntity<ErrorResponse> exceptionNotFoundHandler(Exception ex) {
 		ErrorResponse errore = new ErrorResponse();
@@ -34,11 +34,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler
 	
 	@ExceptionHandler(BindingException.class)
 	public ResponseEntity<ErrorResponse> exceptionBindingHandler(Exception ex) {
+		
 		ErrorResponse errore = new ErrorResponse();
 		
 		errore.setCode(HttpStatus.BAD_REQUEST.value());
 		errore.setMessage(((BindingException) ex.getCause()).getMessage());
 		
 		return new ResponseEntity<ErrorResponse>(errore, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		
 	}
+	
 }

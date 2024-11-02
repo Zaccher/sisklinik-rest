@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,9 +22,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.SneakyThrows;
 
-@EnableWebSecurity
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfiguration {
+	
+	private static String REALM = "REAME";
 	
 	@Autowired
 	@Qualifier("CustomUserDetailsService")
@@ -32,35 +36,41 @@ public class SecurityConfiguration {
 	@Autowired
 	private JwtAuthorizationFilter jwtAuthorizationFilter;
 	
-	@Bean
-    BCryptPasswordEncoder passwordEncoder()
-    {
-        return new BCryptPasswordEncoder();
-    }
-	
-	// Per ora facciamo metchare tutto a entrambi i ruoli - 
-	// più avanti vedremo di distinguere un po' le cose
-	private static final String[] USER_MATCHER = {"/api/**"};
-	private static final String[] ADMIN_MATCHER = {"/api/**"};
+//	// Per ora facciamo metchare tutto a entrambi i ruoli - 
+//	// più avanti vedremo di distinguere un po' le cose
+//	private static final String[] USER_MATCHER = {"/api/**"};
+//	private static final String[] ADMIN_MATCHER = {"/api/**"};
 	
 	@Bean
 	@SneakyThrows
-    SecurityFilterChain securityFilterChain(HttpSecurity http) 
-	{
+    SecurityFilterChain securityFilterChain(HttpSecurity http) {
 		http
 			.csrf(csrf -> csrf.disable())
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 			.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.httpBasic(e -> e.realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint()))
 			.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
 			.authorizeHttpRequests(authz -> 
             {
 				authz
-				    .requestMatchers(ADMIN_MATCHER).hasRole("ADMIN")
-				    .requestMatchers(USER_MATCHER).hasRole("USER")
+//				    .requestMatchers(ADMIN_MATCHER).hasRole("ADMIN")
+//				    .requestMatchers(USER_MATCHER).hasRole("USER")
 				    .anyRequest().authenticated();
 			});
 		
 		return http.build();
+	}
+	
+	@Bean
+    BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+	
+	@Bean
+	JwtUnAuthorizedResponseAuthenticationEntryPoint getBasicAuthEntryPoint() {
+		
+		return new JwtUnAuthorizedResponseAuthenticationEntryPoint();
+		
 	}
 	
 	@Bean
