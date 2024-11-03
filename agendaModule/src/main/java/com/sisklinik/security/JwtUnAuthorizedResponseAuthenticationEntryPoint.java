@@ -1,10 +1,14 @@
 package com.sisklinik.security;
 
-import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+
+import com.google.gson.Gson;
+import com.sisklinik.dtos.InfoMsg;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,9 +26,13 @@ public class JwtUnAuthorizedResponseAuthenticationEntryPoint  extends BasicAuthe
 	public void commence(
 			final HttpServletRequest request, 
 			final HttpServletResponse response,
-			final AuthenticationException authException) 
-	{
-		String ErrMsg = "Token di autorizzazione assente o non valido!";
+			final AuthenticationException authException) {
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		
+		Gson gson = new Gson();
+		
+		InfoMsg infoMsg = new InfoMsg(formatter.format(new Date()), "Token di autorizzazione assente o non valido!");
 		
 		log.warning("Errore Sicurezza: " + authException.getMessage());
 		
@@ -33,9 +41,8 @@ public class JwtUnAuthorizedResponseAuthenticationEntryPoint  extends BasicAuthe
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName() + "");
 		
+		response.getOutputStream().println(gson.toJson(infoMsg));
 
-		PrintWriter writer = response.getWriter();
-		writer.println(ErrMsg);
 	}
 	
 	@Override

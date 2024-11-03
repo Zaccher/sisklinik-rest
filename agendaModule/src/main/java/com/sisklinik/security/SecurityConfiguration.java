@@ -15,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -50,6 +51,7 @@ public class SecurityConfiguration {
 			.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.httpBasic(e -> e.realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint()))
 			.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+			.exceptionHandling(excp -> excp.accessDeniedHandler(accessDeniedHandler())) // gestore che gestisce gli accessDenided
 			.authorizeHttpRequests(authz -> 
             {
 				authz
@@ -59,6 +61,12 @@ public class SecurityConfiguration {
 			});
 		
 		return http.build();
+	}
+	
+	@Bean
+	AccessDeniedHandler accessDeniedHandler() {
+		
+		return new CustomAccessDeniedHandler();
 	}
 	
 	@Bean
