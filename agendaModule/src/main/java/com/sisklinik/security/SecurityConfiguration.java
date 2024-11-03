@@ -28,8 +28,6 @@ import lombok.SneakyThrows;
 @EnableMethodSecurity
 public class SecurityConfiguration {
 	
-	private static String REALM = "REAME";
-	
 	@Autowired
 	@Qualifier("CustomUserDetailsService")
 	private UserDetailsService userDetailsService;
@@ -49,9 +47,9 @@ public class SecurityConfiguration {
 			.csrf(csrf -> csrf.disable())
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 			.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-			.httpBasic(e -> e.realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint()))
 			.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-			.exceptionHandling(excp -> excp.accessDeniedHandler(accessDeniedHandler())) // gestore che gestisce gli accessDenided
+			.exceptionHandling(excp -> excp.accessDeniedHandler(accessDeniedHandler()) // gestore che gestisce gli accessDenided - 403
+					.authenticationEntryPoint(new CustomAuthenticationEntryPoint())) // gestore errore di autenticazione - 401
 			.authorizeHttpRequests(authz -> 
             {
 				authz
@@ -73,13 +71,6 @@ public class SecurityConfiguration {
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-	
-	@Bean
-	JwtUnAuthorizedResponseAuthenticationEntryPoint getBasicAuthEntryPoint() {
-		
-		return new JwtUnAuthorizedResponseAuthenticationEntryPoint();
-		
-	}
 	
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
