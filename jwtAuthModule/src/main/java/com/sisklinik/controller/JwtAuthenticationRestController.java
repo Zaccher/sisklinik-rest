@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sisklinik.exceptions.AuthenticationException;
@@ -77,10 +78,10 @@ public class JwtAuthenticationRestController
 	// Endpoint per il refresh del token
 	@GetMapping(value = "${sicurezza.refresh}")
 	@SneakyThrows
-	public ResponseEntity<JwtTokenResponse> refreshAndGetAuthenticationToken(HttpServletRequest request) 
+	public ResponseEntity<JwtTokenResponse> refreshAndGetAuthenticationToken(@RequestHeader("Authorization") String authToken) 
 	{
 		log.info("Tentativo Refresh Token");
-		String authToken = request.getHeader(jwtConfig.getHeader());
+//		String authToken = request.getHeader(jwtConfig.getHeader());
 		
 		if (authToken == null)
 		{

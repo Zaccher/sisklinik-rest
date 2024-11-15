@@ -29,6 +29,8 @@ public class JwtAuthUserDetailsService implements UserDetailsService {
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String username) {
 		
+		log.info("Inizio Verifica Username - JwtAuthModule");
+		
 		String ErrMsg = "";
 		
 		if (username == null || username.length() < 5) 
@@ -51,7 +53,7 @@ public class JwtAuthUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException(ErrMsg);
 		}
 		
-		log.info("Utente autenticato con successo!!");
+		log.info("Utente autenticato con successo!! - JwtAuthModule");
 		
 		// Andremo a creare l'utente spring security in base allo Userapp ritornato dal servizio
 		UserBuilder builder = null;
