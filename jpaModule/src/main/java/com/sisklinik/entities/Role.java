@@ -36,6 +36,10 @@ public class Role {
 	@Column(name = "name")
 	private String name;
 	
+	@Convert(converter = StringTrimConverter.class)
+	@Column(name = "descrizione")
+	private String descrizione;
+	
 	@Column(name = "data_inizio_validita")
 	private Date dataInizioValidita;
 	

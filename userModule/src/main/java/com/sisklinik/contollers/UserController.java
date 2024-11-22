@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sisklinik.dtos.RoleDto;
 import com.sisklinik.dtos.UserappDto;
 import com.sisklinik.exceptions.BindingException;
 import com.sisklinik.exceptions.InternalServerErrorException;
@@ -40,6 +41,28 @@ public class UserController {
 	
 	@Autowired
 	UserUtility userUtility;
+	
+	@SneakyThrows // questa annotation serve per il reminder delle eccezioni senza utilizzare altro nei metodi
+	@GetMapping(value = "/getAllRoles", produces = "application/json")
+	ResponseEntity<List<RoleDto>> getAllRoles() {
+		
+		List<RoleDto> listaResult = new ArrayList<>();
+		
+		try {
+			
+			listaResult = us.findAllRoles();
+			
+		}catch (Exception e) {
+			
+			String errMsg = String.format("Errore interno del server. Contattare l'assistenza! - getAllRoles");
+			log.warning(errMsg);
+			throw new InternalServerErrorException(errMsg);
+			
+		}
+		
+		return new ResponseEntity<List<RoleDto>>(listaResult, HttpStatus.OK);
+		
+	}
 	
 	@SneakyThrows // questa annotation serve per il reminder delle eccezioni senza utilizzare altro nei metodi
 	@GetMapping(value = "/getAllUsers", produces = "application/json")

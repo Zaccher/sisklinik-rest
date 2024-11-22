@@ -7,12 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sisklinik.dtos.RoleDto;
 import com.sisklinik.dtos.UserappDto;
 import com.sisklinik.entities.AgendaResource;
+import com.sisklinik.entities.Role;
 import com.sisklinik.entities.Userapp;
 import com.sisklinik.mappers.UserMapper;
 import com.sisklinik.params.input.UserappParamsInput;
 import com.sisklinik.repository.AgendaResourceRepository;
+import com.sisklinik.repository.RoleRepository;
 import com.sisklinik.repository.UserappRepository;
 import com.sisklinik.services.UserService;
 
@@ -25,10 +28,21 @@ public class UserServiceImpl implements UserService {
 	UserappRepository ur;
 	
 	@Autowired
+	RoleRepository rr;
+	
+	@Autowired
 	AgendaResourceRepository ar;
 	
 	@Autowired
 	UserMapper mapper;
+	
+	@Override
+	public List<RoleDto> findAllRoles() {
+
+		List<Role> roles= rr.findAllVisible();
+		
+		return mapper.listRoleToListRoleDto(roles);
+	}
 	
 	@Override
 	public List<UserappDto> findAllUsers() {

@@ -6,7 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import com.sisklinik.dtos.RoleDto;
 import com.sisklinik.dtos.UserappDto;
+import com.sisklinik.entities.Role;
 import com.sisklinik.entities.Userapp;
 import com.sisklinik.params.input.UserappParamsInput;
 
@@ -25,6 +27,13 @@ public interface UserMapper {
 	UserappDto userappToUserappDto(Userapp userapp);
 	
 	List<UserappDto> listUserappToListUserappDto(List<Userapp> lista);
+	
+	@Mapping(source = "name", target = "name")
+	@Mapping(source = "descrizione", target = "descrizione")
+	@Mapping(target = "checked", constant = "false")
+	RoleDto userappToUserappDto(Role role);
+	
+	List<RoleDto> listRoleToListRoleDto(List<Role> lista);
 	
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "visible", constant = "true")
