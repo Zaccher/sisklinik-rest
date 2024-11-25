@@ -28,6 +28,7 @@ public interface UserMapper {
 	
 	List<UserappDto> listUserappToListUserappDto(List<Userapp> lista);
 	
+	@Mapping(expression = "java(role.getId().toString())", target = "id")
 	@Mapping(source = "name", target = "name")
 	@Mapping(source = "descrizione", target = "descrizione")
 	@Mapping(target = "checked", constant = "false")
